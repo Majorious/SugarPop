@@ -31,7 +31,12 @@
             "needed_sugar": 30
         }
     ],
+<<<<<<< HEAD
     "spout_x": 400,
     "spout_y": 550,
+=======
+    "spout_x": 300,
+    "spout_y": 650,
+>>>>>>> c770785ec98c8152d0ce45803e5a1333945109fd
     "time_to_complete_level": 60
 }

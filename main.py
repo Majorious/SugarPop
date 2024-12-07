@@ -6,6 +6,7 @@
 # Description: The main implementation of the sugar pop game
 #############################################################
 
+
 import pygame as pg
 import pymunk  # Import Pymunk library
 import sys
@@ -19,6 +20,7 @@ import level
 import message_display
 from Sound import *
 
+
 class Game:
     def __init__(self) -> None:
         pg.init()
@@ -30,12 +32,17 @@ class Game:
         self.font = pg.font.SysFont(None, 36)  # Default font, size 36
 
         # Create a Pymunk space with gravity
+<<<<<<< HEAD
         self.current_level = 2
+=======
+        self.current_level = 0 # Start game at 0
+>>>>>>> c770785ec98c8152d0ce45803e5a1333945109fd
         self.level_complete = False
         self.space = pymunk.Space()
-        self.space.gravity = (0, -4.8)  # Gravity pointing downwards in Pymunk's coordinate system
+        self.space.gravity = (0, -9)  # Gravity pointing downwards in Pymunk's coordinate system
         # Iterations defaults to 10. Higher is more accurate collison detection
         self.space.iterations = 30 
+        self.is_paused = False
 
         self.drawing_lines = []
         self.sugar_grains = []
@@ -87,6 +94,7 @@ class Game:
             # Load buckets
             for nb in self.level.data['buckets']:
                 self.buckets.append(bucket.Bucket(self.space, nb['x'], nb['y'], nb['width'], nb['height'], nb['needed_sugar']))
+                
             # Load static items
             for nb in self.level.data['statics']:
                 self.statics.append(static_item.StaticItem(self.space, nb['x1'], nb['y1'], nb['x2'], nb['y2'], nb['color'], nb['line_width'], nb['friction'], nb['restitution']))
@@ -119,6 +127,10 @@ class Game:
 
     def update(self):
         '''Update the program physics'''
+        
+        if self.is_paused:
+            return
+        
         # Keep an overall iterator
         self.iter += 1
         
@@ -234,6 +246,21 @@ class Game:
             if event.type == EXIT_APP or event.type == pg.QUIT or (event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE):
                 pg.quit()
                 sys.exit()
+
+            # Implementing level restart
+            elif event.type == pg.KEYDOWN and event.key == pg.K_r:
+                self.current_level -= 1
+                pg.time.set_timer(LOAD_NEW_LEVEL, 100)  # Load level
+
+            
+            # Implementing a pause
+            elif event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
+                if self.is_paused:
+                    self.is_paused = False        
+                else:
+                    self.message_display.show_message("Paused", 2)  # Show Paused
+                    self.is_paused = True
+                
             elif event.type == pg.MOUSEBUTTONDOWN:
                 self.mouse_down = True
                 # Get mouse position and start a new dynamic line
