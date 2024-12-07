@@ -32,7 +32,7 @@ class Game:
         self.font = pg.font.SysFont(None, 36)  # Default font, size 36
 
         # Create a Pymunk space with gravity
-        self.current_level = 2
+        self.current_level = 0
        
         self.level_complete = False
         self.space = pymunk.Space()
