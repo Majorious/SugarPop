@@ -17,6 +17,7 @@ import sugar_grain
 import bucket
 import level
 import message_display
+from Sound import *
 
 class Game:
     def __init__(self) -> None:
@@ -29,7 +30,7 @@ class Game:
         self.font = pg.font.SysFont(None, 36)  # Default font, size 36
 
         # Create a Pymunk space with gravity
-        self.current_level = 0
+        self.current_level = 2
         self.level_complete = False
         self.space = pymunk.Space()
         self.space.gravity = (0, -4.8)  # Gravity pointing downwards in Pymunk's coordinate system
@@ -47,6 +48,8 @@ class Game:
         self.current_line = None
         self.message_display = message_display.MessageDisplay(font_size=72)
         
+        self.sound = SoundManager()
+
         # Load the intro image
         self.intro_image = pg.image.load("./images/SugarPop.png").convert()  # Load the intro image
         # Get new height based on correct scale
@@ -141,13 +144,16 @@ class Game:
             
             # Calculate buckets count by counting each grain's position
             # First, explode or reset the counter on each bucket
-            for bucket in self.buckets:
+            for i in range(len(self.buckets) - 1, -1, -1):
+                bucket = self.buckets[i]
                 if bucket.count >= bucket.needed_sugar:
                     bucket.explode(self.sugar_grains)
+                    del self.buckets[i]
                     # If all the buckets are gone, level up!
                     if not self.level_complete and self.check_all_buckets_exploded():
                         self.level_complete = True
                         self.message_display.show_message("Level Complete!", 2)
+                        self.sound.play_level_complete()
                         pg.time.set_timer(LOAD_NEW_LEVEL, 2000)  # Schedule next level load
                 else:
                     bucket.count_reset()
@@ -201,15 +207,17 @@ class Game:
         for static in self.statics:
             static.draw(self.screen)
 
-        # Draw the nozzle (Remember to subtract y from the height)
+        
+
+        # Draw the spout position as a circle for debugging
         if self.level_spout_position:
-            pg.draw.line(
-                self.screen, 
-                (255, 165, 144), 
-                (self.level_spout_position[0], HEIGHT - self.level_spout_position[1] - 10), 
-                (self.level_spout_position[0], HEIGHT - self.level_spout_position[1]), 
-                5
+            pg.draw.circle(
+                self.screen,
+                (255, 0, 0),  # Red color for visibility
+                (int(self.level_spout_position[0]), HEIGHT - int(self.level_spout_position[1])),
+                10  # Radius of the circle
             )
+
         
         # Draw the heads-up display
         self.draw_hud()
@@ -275,3 +283,8 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+
+
+

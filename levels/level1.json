@@ -3,9 +3,9 @@
     "statics": [
         {
             "x1": 100,
-            "y1": 500,
+            "y1": 400,
             "x2": 300,
-            "y2": 250,
+            "y2": 200,
             "color": "gray",
             "line_width": 3,
             "friction": 0.3,
@@ -13,9 +13,9 @@
         },
         {
             "x1": 300,
-            "y1": 250,
+            "y1": 200,
             "x2": 500,
-            "y2": 500,
+            "y2": 400,
             "color": "gray",
             "line_width": 3,
             "friction": 0.3,
@@ -25,13 +25,13 @@
     "buckets": [
         {
             "x": 300,
-            "y": 50,
+            "y": 250,
             "width": 50,
             "height": 40,
             "needed_sugar": 30
         }
     ],
-    "spout_x": 300,
-    "spout_y": 850,
+    "spout_x": 400,
+    "spout_y": 550,
     "time_to_complete_level": 60
 }

@@ -9,7 +9,7 @@
 import pygame as pg
 
 # Window settings
-RES = WIDTH, HEIGHT = 800, 1024
+RES = WIDTH, HEIGHT = 1050, 600
 FPS = 60
 
 # Scaling factor (Pixels per meter)
@@ -29,3 +29,7 @@ START_FLOW = pg.USEREVENT + 1
 FLOW_DELAY = pg.USEREVENT + 2
 LOAD_NEW_LEVEL = pg.USEREVENT + 3
 EXIT_APP = pg.USEREVENT + 4
+
+
+sound_dict = {"Explode": ["./Sounds/Bucket_Explode.mp3", 0], "Fill" : ["./Sounds/Candy_Refill.mp3", 1],
+              "End" : ["./Sounds/End_Level.mp3", 2]}
